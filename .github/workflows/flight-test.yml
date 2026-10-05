@@ -1,0 +1,25 @@
+name: FlightClaw Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  search:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install FlightClaw
+        run: |
+          pip install "flights==0.9.0" "mcp[cli]<2" fastmcp pydantic-settings
+
+      - name: Test flight search
+        run: |
+          python scripts/search-flights.py LHR CDG 2026-11-14 --return-date 2026-11-22 --results 5
